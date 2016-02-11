@@ -1,0 +1,18 @@
+#!/bin/bash
+
+spinner()
+{
+    local pid=$1
+    local delay=0.5
+    local spinstr='|/-\'
+    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+        local temp=${spinstr#?}
+        printf "\r [%c]  " "$spinstr"
+        local spinstr=$temp${spinstr%"$temp"}
+        sleep $delay
+    done
+    printf "\r"
+}
+
+wget ftp://ftp.gnet.tn/pub/windows/ifolder/ifolder3-3.6.7085.1-1-setup.exe > /dev/null 2>&1 &
+spinner $!
